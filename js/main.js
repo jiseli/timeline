@@ -13,14 +13,49 @@ function getJSONEvents(url, callback) {
   xhr.send(null);
 }
 
-function onReady(chronology) {
-  var events = chronology.getEvents();
-  for (var i = 0; i < events.length; i++) {
-    document.getElementById(events[i].id).addEventListener('click', function (e) {
-      window.alert('Open details for event: ' + e.target.dataset.title);
-    }, false);
+function loadDetails(obj, wrapper) {
+  if (!wrapper) {
+    wrapper = document;
+  }
+  for (var attr in obj) {
+    if (obj.hasOwnProperty(attr)) {
+      var element = wrapper.querySelector('.' + attr);
+      if (element) {
+        if (obj[attr]) {
+          element.innerHTML = format(obj[attr], attr);
+        }else {
+          element.innerHTML = '';
+        }
+      }
+    }
   }
 }
+
+function format(value, type) {
+  switch (type) {
+    case 'start':
+    case 'end':
+      if (!isNaN(parseFloat(value))) {
+        if (value < 0) {
+          return Math.abs(value) + ' av. n. ère';
+        }else{
+          return value + ' de n. ère';
+        }
+      }else{
+        return null;
+      }
+      break;
+    case 'references':
+      return '<a href="' + value + '">' + value + '</a>';
+    default:
+      return value;
+  }
+}
+
+var eventDetailsWrapper = document.getElementById('event-details');
+eventDetailsWrapper.querySelector('.close').addEventListener('click', function (e) {
+  eventDetailsWrapper.style.display = 'none';
+}, false);
 
 getJSONEvents('events.json', function(events, res) {
   new Chronology({
@@ -31,6 +66,15 @@ getJSONEvents('events.json', function(events, res) {
     zoomOutSelector: 'zoom-out-btn',
     resetSelector: 'reset-btn',
     events: events,
-    ready: onReady
+    ready: function (timeline) {
+      // Attach "open details" to each event
+      var events = timeline.getEvents();
+      for (var i = 0; i < events.length; i++) {
+        document.getElementById(events[i].id).addEventListener('click', function (e) {
+          loadDetails(e.target.dataset, eventDetailsWrapper);
+          eventDetailsWrapper.style.display = 'block';
+        }, false);
+      }
+    }
   });
 });

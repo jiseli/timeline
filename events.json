@@ -5,7 +5,7 @@
   "approximation": "",
   "title": "Apollo 11",
   "description": "”One small step for [a] man, one giant leap for mankind.”",
-  "references": "http://www.google.ch/",
+  "references": "https://fr.wikipedia.org/wiki/Apollo_11",
   "categories": "discovery"
 },{
   "id": "event-2",
@@ -14,7 +14,7 @@
   "approximation": "",
   "title": "World Wide Web free to anyone",
   "description": "On 30 April 1993, CERN announced that the World Wide Web would be free to anyone, with no fees due.",
-  "references": "http://www.google.ch/",
+  "references": "",
   "categories": "technology"
 },{
   "id": "event-3",
@@ -23,7 +23,7 @@
   "approximation": "",
   "title": "E = mc2",
   "description": "Albert Einstein submits his paper ”Does the Inertia of a Body Depend Upon Its Energy Content?” in which he develops an argument for the famous equation E = mc2.",
-  "references": "http://www.google.ch/",
+  "references": "https://fr.wikipedia.org/wiki/E%3Dmc2",
   "categories": "science"
 },{
   "id": "event-4",
@@ -32,6 +32,6 @@
   "approximation": "",
   "title": "DNA",
   "description": "The discovery of the structure of DNA in genetic",
-  "references": "http://www.google.ch/",
+  "references": "",
   "categories": "science"
 }]
