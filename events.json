@@ -1,5 +1,5 @@
 [{
-  "id": 1,
+  "id": "event-1",
   "start": 1969,
   "end": null,
   "approximation": "",
@@ -8,7 +8,7 @@
   "references": "http://www.google.ch/",
   "categories": "discovery"
 },{
-  "id": 2,
+  "id": "event-2",
   "start": 1993,
   "end": null,
   "approximation": "",
@@ -17,7 +17,7 @@
   "references": "http://www.google.ch/",
   "categories": "technology"
 },{
-  "id": 3,
+  "id": "event-3",
   "start": 1905,
   "end": null,
   "approximation": "",
@@ -26,7 +26,7 @@
   "references": "http://www.google.ch/",
   "categories": "science"
 },{
-  "id": 4,
+  "id": "event-4",
   "start": 1957,
   "end": null,
   "approximation": "",

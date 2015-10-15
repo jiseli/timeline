@@ -11,13 +11,14 @@ function Chronology(options) {
           end:        new Date().getFullYear(),   // end timeline at current year
           width:      200,                        // event item width
           height:     30,                         // event item height
-          events:     []                          // events array (JSON)
+          events:     [],                         // events array (JSON)
                                                   // ie: [{
                                                   //  "start": 1969,
                                                   //  "end": null,
                                                   //  "title": "Apollo 11",
                                                   //  "description": "”One small step for [a] man, one giant leap for mankind.”"
                                                   // }]
+          ready:   null                           // define a function called when timeline is ready
         };
 
     ////////////////////
@@ -41,6 +42,10 @@ function Chronology(options) {
       _self.config.scale = _defaults.scale;
       _updateView();
     };
+
+    this.getEvents = function() {
+      return _self.config.events;
+    }
 
     /////////////////////
     // Private methods //
@@ -83,6 +88,11 @@ function Chronology(options) {
           _timeline.appendChild(_events);
           _wrapper.appendChild(_timeline);
           _updateView(true);
+
+          // Call "ready" callback function if defined
+          if ( typeof _self.config.ready == 'function' ) {
+            _self.config.ready(_self);
+          }
         });
       });
     };
@@ -130,6 +140,9 @@ function Chronology(options) {
           // Set item data
           for(attr in events[i]) {
             item.dataset[attr] = events[i][attr];
+            if ( attr == 'id' ) {
+              item.setAttribute('id', events[i][attr]);
+            }
           }
           // Set item properties
           _setOffset(item);
