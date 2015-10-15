@@ -105,6 +105,7 @@ function Chronology(options) {
           _addClass(label, 'label');
           label.innerHTML = i;
           item.appendChild(label);
+          _setNumeralClass(i, item);
           _setScale(item);
           _timeline.appendChild(item);
         }
@@ -233,6 +234,34 @@ function Chronology(options) {
 
     var _setScale = function (item) {
       item.style.width = _self.config.scale + 'px';
+    };
+
+    var _setNumeralClass = function (index, item) {
+      if (index % 1000 == 0) {
+        _addClass(item, 'thousand');
+      } else {
+        if (index % 100 == 0) {
+          _addClass(item, 'hundred');
+        } else {
+          if (index % 10 == 0) {
+            _addClass(item, 'decade');
+          } else {
+            if (index % 5 == 0) {
+              _addClass(item, 'fifth');
+            } else {
+              if (index & 1) {
+                if (index == 1) {
+                  _addClass(item, 'year-one');
+                } else {
+                  _addClass(item, 'odd');
+                }
+              } else {
+                _addClass(item, 'even');
+              }
+            }
+          }
+        }
+      }
     };
 
     var _setScroll = function (position) {
