@@ -1,21 +1,37 @@
 [{
+  "id": 1,
   "start": 1969,
   "end": null,
+  "approximation": "",
   "title": "Apollo 11",
-  "description": "”One small step for [a] man, one giant leap for mankind.”"
+  "description": "”One small step for [a] man, one giant leap for mankind.”",
+  "references": "http://www.google.ch/",
+  "categories": "discovery"
 },{
+  "id": 2,
   "start": 1993,
   "end": null,
+  "approximation": "",
   "title": "World Wide Web free to anyone",
-  "description": "On 30 April 1993, CERN announced that the World Wide Web would be free to anyone, with no fees due."
+  "description": "On 30 April 1993, CERN announced that the World Wide Web would be free to anyone, with no fees due.",
+  "references": "http://www.google.ch/",
+  "categories": "technology"
 },{
+  "id": 3,
   "start": 1905,
   "end": null,
+  "approximation": "",
   "title": "E = mc2",
-  "description": "Albert Einstein submits his paper ”Does the Inertia of a Body Depend Upon Its Energy Content?” in which he develops an argument for the famous equation E = mc2."
+  "description": "Albert Einstein submits his paper ”Does the Inertia of a Body Depend Upon Its Energy Content?” in which he develops an argument for the famous equation E = mc2.",
+  "references": "http://www.google.ch/",
+  "categories": "science"
 },{
+  "id": 4,
   "start": 1957,
   "end": null,
+  "approximation": "",
   "title": "DNA",
-  "description": "The discovery of the structure of DNA in genetic"
+  "description": "The discovery of the structure of DNA in genetic",
+  "references": "http://www.google.ch/",
+  "categories": "science"
 }]

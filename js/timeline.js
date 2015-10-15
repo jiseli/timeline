@@ -128,15 +128,15 @@ function Chronology(options) {
         for (var i = 0; i < events.length; i++) {
           var item = document.createElement('li');
           // Set item data
-          item.dataset.start = events[i].start;
-          item.dataset.end = events[i].end;
-          item.dataset.title = events[i].title;
-          item.dataset.description = events[i].description;
+          for(attr in events[i]) {
+            item.dataset[attr] = events[i][attr];
+          }
           // Set item properties
           _setOffset(item);
           _setWidth(item);
           _setRow(item);
           _setContent(item);
+          _setCategories(item);
           // Append ready item
           _events.appendChild(item);
         }
@@ -209,6 +209,13 @@ function Chronology(options) {
 
     var _setContent = function (item) {
       item.innerHTML = item.dataset.title;
+    };
+
+    var _setCategories = function (item) {
+      var categories = item.dataset.categories.split(' ').filter(function(s){return s });
+      for(var i = 0; i < categories.length; i++) {
+        _addClass(item, categories[i]);
+      }
     };
 
     var _setScale = function (item) {
@@ -287,7 +294,7 @@ function Chronology(options) {
     };
 
     var _addClass = function (el, cls) {
-      if (!_hasClass(el, cls)) el.className += " " + cls;
+      if (!_hasClass(el, cls)) (el.className) ? el.className += ' ' + cls : el.className = cls;
     };
 
     var _removeClass = function (el, cls) {
