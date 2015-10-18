@@ -11,6 +11,13 @@ function Chronology(options) {
           end:        new Date().getFullYear(),   // end timeline at current year
           width:      200,                        // event item width
           height:     30,                         // event item height
+          sizes:      {                           // at which scale size class are applied
+            xl: 150,
+            lg: 100,
+            md: 50,
+            sm: 20,
+            xs: 10
+          },
           events:     [],                         // events array (JSON)
                                                   // ie: [{
                                                   //  "start": 1969,
@@ -181,6 +188,9 @@ function Chronology(options) {
       // ".clientWidth" need the element being appended to the DOM
       _setScroll(_self.config.position);
 
+      // Set CSS class (size-xs, size-md, etc.)
+      _setSizeClass(_self.config.scale);
+
       // Set timeline height (to see events in the viewport)
       _timeline.style.height = _timeline.children[0].clientHeight + _rows.length * _self.config.height + 'px';
     };
@@ -264,6 +274,38 @@ function Chronology(options) {
       }
     };
 
+    var _setSizeClass = function (scale) {
+      // Remove old size class
+      var oldSizeClass = _timeline.className.match(new RegExp(/(^|\s)size-\S+/g));
+      if(oldSizeClass) {
+        _removeClass(_timeline, oldSizeClass[0].trim());
+      }
+
+      if (scale > _self.config.sizes.xl) {
+        _addClass(_timeline, 'size-gi');
+      }
+
+      if (scale > _self.config.sizes.lg  && scale <= _self.config.sizes.xl) {
+        _addClass(_timeline, 'size-xl');
+      }
+
+      if (scale > _self.config.sizes.md  && scale <= _self.config.sizes.lg) {
+        _addClass(_timeline, 'size-lg');
+      }
+
+      if (scale > _self.config.sizes.sm  && scale <= _self.config.sizes.md) {
+        _addClass(_timeline, 'size-md');
+      }
+
+      if (scale > _self.config.sizes.xs  && scale <= _self.config.sizes.sm) {
+        _addClass(_timeline, 'size-sm');
+      }
+
+      if (scale <= _self.config.sizes.xs) {
+        _addClass(_timeline, 'size-xs');
+      }
+    };
+
     var _setScroll = function (position) {
       var scrollLeft = (position > 0 ? _self.config.start - position + 1 : _self.config.start - position);
       // Subtract the half of the viewport width (to center the position)
@@ -331,20 +373,17 @@ function Chronology(options) {
       return obj3;
     }
 
-    var _hasClass = function (el, cls) {
-      return !!el.className.match(new RegExp(' (\\s | ^ )' + cls + ' (\\s | $)'));
+    var _hasClass = function(el, cls) {
+      return ('' + el.className).split(' ').indexOf(cls) >= 0;
     };
 
     var _addClass = function (el, cls) {
       if (!_hasClass(el, cls)) (el.className) ? el.className += ' ' + cls : el.className = cls;
     };
 
-    var _removeClass = function (el, cls) {
-      if (_hasClass(el, cls)) {
-        var reg = new RegExp(' (\\s | ^ )' + cls + ' (\\s | $)');
-        el.className = el.className.replace(reg, '');
-      }
-    };
+    function _removeClass(el, cls) {
+      el.className = el.className.replace( new RegExp('(?:^|\\s)' + cls + '(?!\\S)'), '');
+    }
 
     // When everything is done
     _init();
