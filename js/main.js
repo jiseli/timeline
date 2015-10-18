@@ -57,6 +57,13 @@ eventDetailsWrapper.querySelector('.close').addEventListener('click', function (
   eventDetailsWrapper.style.display = 'none';
 }, false);
 
+var eventsListWrapper = document.getElementById('events-list');
+var itemSelectCallback = function(el, context) {
+  context.selectEvent(el);
+  loadDetails(el.dataset, eventDetailsWrapper);
+  eventDetailsWrapper.style.display = 'block';
+};
+
 getJSONEvents('events.json', function(events, res) {
   new Chronology({
     wrapper: 'timeline-wrapper',
@@ -67,13 +74,34 @@ getJSONEvents('events.json', function(events, res) {
     resetSelector: 'reset-btn',
     events: events,
     ready: function (timeline) {
-      // Attach "open details" to each event
       var events = timeline.getEvents();
+      if(eventsListWrapper) {
+        var list = document.createElement('ol');
+      }
       for (var i = 0; i < events.length; i++) {
+        // Create events list
+        if(eventsListWrapper) {
+          var item = document.createElement('li');
+          var title = document.createElement('a');
+          title.innerHTML = events[i].title;
+          title.setAttribute('href', '#');
+          title.setAttribute('data-id', events[i].id);
+          title.addEventListener('click', function (e) {
+            var el = document.getElementById(e.target.dataset.id);
+            itemSelectCallback(el, timeline);
+            timeline.scrollToEvent(el);
+          }, false);
+          item.appendChild(title);
+          list.appendChild(item);
+        }
+
+        // Attach "open details" to each event
         document.getElementById(events[i].id).addEventListener('click', function (e) {
-          loadDetails(e.target.dataset, eventDetailsWrapper);
-          eventDetailsWrapper.style.display = 'block';
+          itemSelectCallback(e.target, timeline);
         }, false);
+      }
+      if(eventsListWrapper) {
+        eventsListWrapper.appendChild(list);
       }
     }
   });

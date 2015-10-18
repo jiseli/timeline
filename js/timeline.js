@@ -52,7 +52,22 @@ function Chronology(options) {
 
     this.getEvents = function() {
       return _self.config.events;
-    }
+    };
+
+    this.scrollToEvent = function (el) {
+      // Subtract the half of the viewport width (to center the position)
+      _timeline.scrollLeft = Math.abs(_setOffset(el, true)) - (_wrapper.clientWidth / 2);
+    };
+
+    this.selectEvent = function(el) {
+      if(el) {
+        var highlights = _events.querySelectorAll('.highlight');
+        for (var i = 0; i < highlights.length; i++) {
+          _removeClass(highlights[i], 'highlight');
+        }
+        _addClass(el, 'highlight');
+      }
+    };
 
     /////////////////////
     // Private methods //
@@ -204,8 +219,13 @@ function Chronology(options) {
     // Setters //
     /////////////
 
-    var _setOffset = function (item) {
-      item.style.left = (_self.config.start < 0 && item.dataset.start > 0 ? item.dataset.start - (_self.config.start + 1) : item.dataset.start - _self.config.start) * _self.config.scale + 'px';
+    var _setOffset = function (item, returnValue) {
+      var offset = (_self.config.start < 0 && item.dataset.start > 0 ? item.dataset.start - (_self.config.start + 1) : item.dataset.start - _self.config.start) * _self.config.scale;
+      if (returnValue) {
+        return offset;
+      }else{
+        item.style.left = offset + 'px';
+      }
     };
 
     var _setWidth = function (item) {

@@ -67,3 +67,6 @@
   cursor: pointer;
   background-color: #ccc;
 }
+.events > li.highlight {
+  border: 2px solid red;
+}
