@@ -1,5 +1,4 @@
 [{
-  "id": "event-1",
   "start": 1969,
   "end": null,
   "approximation": "",
@@ -8,7 +7,6 @@
   "references": "https://fr.wikipedia.org/wiki/Apollo_11",
   "categories": "discovery"
 },{
-  "id": "event-2",
   "start": 1993,
   "end": null,
   "approximation": "",
@@ -17,7 +15,6 @@
   "references": "",
   "categories": "technology"
 },{
-  "id": "event-3",
   "start": 1905,
   "end": null,
   "approximation": "",
@@ -26,7 +23,6 @@
   "references": "https://fr.wikipedia.org/wiki/E%3Dmc2",
   "categories": "science"
 },{
-  "id": "event-4",
   "start": 1957,
   "end": null,
   "approximation": "",

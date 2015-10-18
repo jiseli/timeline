@@ -145,19 +145,24 @@ function Chronology(options) {
 
         for (var i = 0; i < events.length; i++) {
           var item = document.createElement('li');
+
+          // Set item ID
+          var uuid = _guid('event');
+          events[i].id = uuid;
+          item.setAttribute('id', uuid);
+
           // Set item data
           for(attr in events[i]) {
             item.dataset[attr] = events[i][attr];
-            if ( attr == 'id' ) {
-              item.setAttribute('id', events[i][attr]);
-            }
           }
+
           // Set item properties
           _setOffset(item);
           _setWidth(item);
           _setRow(item);
           _setContent(item);
           _setCategories(item);
+
           // Append ready item
           _events.appendChild(item);
         }
@@ -372,6 +377,13 @@ function Chronology(options) {
       }
       return obj3;
     }
+
+    var _guid = function(prefix) {
+      if (prefix) {
+        prefix = prefix + '-';
+      }
+      return prefix + Math.random().toString(36).substr(2, 16);
+    };
 
     var _hasClass = function(el, cls) {
       return ('' + el.className).split(' ').indexOf(cls) >= 0;
