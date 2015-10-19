@@ -102,16 +102,20 @@ function format(value, type) {
 }
 
 function truncate(string, limit, ellipsis) {
-  var words = string.split(' ');
-  var count = 0;
-  var result = words.filter(function(word) {
-    count += word.length;
-    return count <= limit;
-  });
-  if ( result.length < words.length && ellipsis == true ) {
-    return result.join(' ') + '...';
+  if(string) {
+    var words = string.split(' ');
+    var count = 0;
+    var result = words.filter(function(word) {
+      count += word.length;
+      return count <= limit;
+    });
+    if ( result.length < words.length && ellipsis == true ) {
+      return result.join(' ') + '...';
+    }else{
+      return result.join(' ');
+    }
   }else{
-    return result.join(' ');
+    return '';
   }
 }
 
@@ -183,8 +187,8 @@ var itemSelectCallback = function(el, context) {
 getJSONEvents('events.json', function(events, res) {
   new Chronology({
     wrapper: 'timeline-wrapper',
-    start: 1900,
-    position: 1900,
+    start: -4026,
+    position: -4026,
     zoomInSelector: 'zoom-in-btn',
     zoomOutSelector: 'zoom-out-btn',
     resetSelector: 'reset-btn',
