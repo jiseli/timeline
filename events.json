@@ -4,7 +4,7 @@
   "approximation": "",
   "title": "Apollo 11",
   "description": "”One small step for [a] man, one giant leap for mankind.”",
-  "references": "https://fr.wikipedia.org/wiki/Apollo_11",
+  "references": ["https://fr.wikipedia.org/wiki/Apollo_11", "https://en.wikipedia.org/wiki/Apollo_11"],
   "categories": "discovery"
 },{
   "start": 1993,
@@ -24,7 +24,7 @@
   "categories": "science"
 },{
   "start": 1957,
-  "end": null,
+  "end": 2015,
   "approximation": "",
   "title": "DNA",
   "description": "The discovery of the structure of DNA in genetic",

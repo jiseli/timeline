@@ -17,14 +17,29 @@ function loadDetails(obj, wrapper) {
   if (!wrapper) {
     wrapper = document;
   }
+  if (('' + wrapper.className).split(' ').indexOf('hasContent') < 0) {
+    wrapper.className += ' hasContent';
+  }
   for (var attr in obj) {
     if (obj.hasOwnProperty(attr)) {
       var element = wrapper.querySelector('.' + attr);
       if (element) {
         if (obj[attr]) {
-          element.innerHTML = format(obj[attr], attr);
+          var value = format(obj[attr], attr);
+          if (value) {
+            element.innerHTML = value;
+            element.className = element.className.replace( new RegExp('(?:^|\\s)hidden(?!\\S)'), '');
+          }else{
+            element.innerHTML = '';
+            if (('' + element.className).split(' ').indexOf('hidden') < 0) {
+              element.className += ' hidden';
+            }
+          }
         }else {
           element.innerHTML = '';
+          if (('' + element.className).split(' ').indexOf('hidden') < 0) {
+            element.className += ' hidden';
+          }
         }
       }
     }
@@ -34,7 +49,6 @@ function loadDetails(obj, wrapper) {
 function format(value, type) {
   switch (type) {
     case 'start':
-    case 'end':
       if (!isNaN(parseFloat(value))) {
         if (value < 0) {
           return Math.abs(value) + ' av. n. ère';
@@ -45,10 +59,59 @@ function format(value, type) {
         return null;
       }
       break;
+    case 'end':
+      if (!isNaN(parseFloat(value))) {
+        if (value < 0) {
+          return ' à ' + Math.abs(value) + ' av. n. ère';
+        }else{
+          return ' à ' + value + ' de n. ère';
+        }
+      }else{
+        return null;
+      }
+      break;
     case 'references':
-      return '<a href="' + value + '">' + value + '</a>';
+      var references = value.split(',');
+      var output = '';
+      for (var i = 0; i < references.length; i++) {
+        output += '<li><a href="' + references[i] + '">' + references[i] + '</a></li>';
+      }
+      return output;
+    case 'categories':
+      var categories = value.split(' ').filter(function(s){return s });
+      var output = '';
+      for(var i = 0; i < categories.length; i++) {
+        var caption = categories[i];
+        switch (categories[i]) {
+          case 'technology':
+            caption = 'Technologie';
+            break;
+          case 'discovery':
+            caption = 'Découvertes';
+            break;
+          case 'science':
+            caption = 'Science';
+            break;
+        }
+        output += '<span class="label ' + categories[i] + '">' + caption + '</span>';
+      }
+      return output;
     default:
       return value;
+  }
+}
+
+function truncate(string, limit, ellipsis) {
+  var words = string.split(' ');
+  var count = 0;
+  var result = words.filter(function(word) {
+    count += word.length;
+    return count <= limit;
+  });
+  if ( result.length < words.length && ellipsis == true ) {
+    return result.join(' ') + '...';
+  }else{
+    return result.join(' ');
   }
 }
 
@@ -56,11 +119,57 @@ var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 var is_safari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
 var is_firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
-var eventDetailsWrapper = document.getElementById('event-details');
-eventDetailsWrapper.querySelector('.close').addEventListener('click', function (e) {
-  eventDetailsWrapper.style.display = 'none';
-}, false);
+function toggle(el, force) {
+  if (('' + el.className).split(' ').indexOf('hidden') >= 0) {
+    if (force) {
+      el.className = el.className.replace( new RegExp('(?:^|\\s)hidden(?!\\S)'), force);
+    }else{
+      el.className = el.className.replace( new RegExp('(?:^|\\s)hidden(?!\\S)'), 'visible');
+    }
+  }else if (('' + el.className).split(' ').indexOf('visible') >= 0) {
+    if (force) {
+      el.className = el.className.replace( new RegExp('(?:^|\\s)visible(?!\\S)'), force);
+    }else{
+      el.className = el.className.replace( new RegExp('(?:^|\\s)visible(?!\\S)'), 'hidden');
+    }
+  }
+}
 
+function switchTab(target) {
+  for (var i = 0; i < tabs.length; i++) {
+    if ( tabs[i].hash.substring(1) != target.id ) {
+      tabs[i].className = tabs[i].className.replace( new RegExp('(?:^|\\s)active(?!\\S)'), '');
+    }else{
+      if (('' + tabs[i].className).split(' ').indexOf('active') < 0) {
+        tabs[i].className += ' active';
+      }
+    }
+    var item = document.getElementById(tabs[i].hash.substring(1));
+    toggle(item, 'hidden');
+  }
+  toggle(target);
+}
+
+var tabs = document.querySelectorAll('.tab');
+for (var i = 0; i < tabs.length; i++) {
+  var el = document.getElementById(tabs[i].hash.substring(1));
+  if (tabs[i].dataset.active == 'true') {
+    tabs[i].className += ' active';
+    el.className += ' visible';
+  }else{
+    el.className += ' hidden';
+  }
+  tabs[i].addEventListener('click', function (e) {
+    if (('' + e.target.parentNode.className).split(' ').indexOf('tab') >= 0) {
+      var target = document.getElementById(e.target.parentNode.hash.substring(1));
+    }else{
+      var target = document.getElementById(e.target.hash.substring(1));
+    }
+    switchTab(target);
+  }, false);
+}
+
+var eventDetailsWrapper = document.getElementById('event-details');
 var eventsListWrapper = document.getElementById('events-list');
 if(eventsListWrapper) {
   var list = document.createElement('ol');
@@ -68,7 +177,7 @@ if(eventsListWrapper) {
 var itemSelectCallback = function(el, context) {
   context.selectEvent(el);
   loadDetails(el.dataset, eventDetailsWrapper);
-  eventDetailsWrapper.style.display = 'block';
+  switchTab(eventDetailsWrapper);
 };
 
 getJSONEvents('events.json', function(events, res) {
@@ -86,6 +195,7 @@ getJSONEvents('events.json', function(events, res) {
         // Create events list
         if(eventsListWrapper) {
           var item = document.createElement('li');
+          item.className = 'visible';
 
           // Set item data
           for(attr in events[i]) {
@@ -93,9 +203,8 @@ getJSONEvents('events.json', function(events, res) {
           }
 
           // Title
-          var title = document.createElement('a');
+          var title = document.createElement('h3');
           title.innerHTML = events[i].title;
-          title.setAttribute('href', '#');
           title.className = 'title';
           title.dataset.id = events[i].id;
           title.addEventListener('click', function (e) {
@@ -105,17 +214,21 @@ getJSONEvents('events.json', function(events, res) {
           }, false);
           item.appendChild(title);
 
+          // Date
+          var date = document.createElement('span');
+          date.className = 'date';
+          if ( events[i].end ) {
+            date.innerHTML = events[i].start + ' - ' + events[i].end;
+          }else{
+            date.innerHTML = events[i].start;
+          }
+          item.appendChild(date);
+
           // Description
           var description = document.createElement('p');
           description.className = 'description';
-          description.innerHTML = events[i].description;
+          description.innerHTML = truncate(events[i].description, 100, true);
           item.appendChild(description);
-
-          // Start
-          var start = document.createElement('span');
-          start.className = 'start';
-          start.innerHTML = events[i].start;
-          item.appendChild(start);
 
           list.appendChild(item);
         }
@@ -141,10 +254,11 @@ getJSONEvents('events.json', function(events, res) {
               if ( target[j] && target[j].toString().search(RegExp(filter, 'i')) >= 0 ) {
                 match = true;
               }
+
               if (j + 1 == target.length && match == false) {
-                list.children[i].style.display = 'none';
+                toggle(list.children[i], 'hidden');
               }else if (j + 1 == target.length && match == true ){
-                list.children[i].style.display = 'list-item';
+                toggle(list.children[i], 'visible');
               }
             }
           }
