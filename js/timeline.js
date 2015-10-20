@@ -169,6 +169,9 @@ function Chronology(options) {
           // Set item data
           for(attr in events[i]) {
             item.dataset[attr] = events[i][attr];
+            if(attr == 'title') {
+              item.setAttribute('title', events[i][attr]);
+            }
           }
 
           // Set item properties
