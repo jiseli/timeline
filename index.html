@@ -6,50 +6,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Timeline example</title>
 
-    <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="css/timeline.css">
     <link type="text/css" rel="stylesheet" href="css/timeline.custom.css">
     <link type="text/css" rel="stylesheet" href="css/main.css">
   </head>
   <body>
-
-    <header class="page-header cf">
-      <h1 class="page-title vertical-align">Timeline example</h1>
-      <nav class="toolbar vertical-align">
-        <ul>
-          <li id="zoom-in-btn"><i class="fa fa-search-plus"></i></li>
-          <li id="zoom-out-btn"><i class="fa fa-search-minus"></i></li>
-          <li id="reset-btn"><i class="fa fa-refresh"></i></li>
-        </ul>
-      </nav>
-    </header>
-
-    <section id="timeline-wrapper" class="main-section"></section>
-
-    <aside class="sidebar">
-      <nav class="tabs">
-        <ul>
-          <li><a href="#events-list" class="tab" data-active="true"><i class="fa fa-list"></i> Événements</a></li>
-          <li><a href="#event-details" class="tab"><i class="fa fa-asterisk"></i> Détails</a></li>
-        </ul>
-      </nav>
-      <div id="event-details">
-        <p class="alert">Aucun événement sélectionné</p>
-        <h1 class="title"></h1>
-        <span class="approximation"></span> <span class="start"></span><span class="end"></span>
-        <p class="description"></p>
-        <ul class="references"></ul>
-        <div class="categories"></div>
-      </div>
-      <div id="events-list">
-        <input type="search" id="search" placeholder="Rechercher" incremental>
-      </div>
-    </aside>
-
-    <footer class="page-footer cf">
-      <p class="vertical-align">Copyright &copy; 2015</p>
-    </footer>
-
+    <div id="timeline-wrapper"></div>
     <script src="js/timeline.js"></script>
     <script src="js/main.js"></script>
   </body>
