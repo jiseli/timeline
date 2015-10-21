@@ -258,6 +258,7 @@ function Chronology(options) {
 
       if (isNaN(end)) {
         item.style.width = (parseFloat(item.dataset.width) - start) * _self.config.scale + 'px';
+        _addClass(item, 'undelimited');
       } else {
         item.style.width = (end - start) * _self.config.scale + 'px';
       }
