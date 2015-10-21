@@ -184,6 +184,7 @@ function Chronology(options) {
           _setRow(item);
           _setContent(item);
           _setCategories(item);
+          _setApproximation(item);
 
           // Append ready item
           _events.appendChild(item);
@@ -277,6 +278,10 @@ function Chronology(options) {
       for(var i = 0; i < categories.length; i++) {
         _addClass(item, categories[i]);
       }
+    };
+
+    var _setApproximation = function (item) {
+      _addClass(item, item.dataset.approximation);
     };
 
     var _setScale = function (item) {
