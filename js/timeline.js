@@ -256,7 +256,7 @@ function Chronology(options) {
     var _setRow = function (item) {
       _checkAvailability(item);
       item.style.height = _self.config.height + 'px';
-      item.style.marginTop = item.dataset.row * _self.config.height + 'px';
+      item.style.top = item.dataset.row * _self.config.height + 'px';
     };
 
     var _setContent = function (item) {
