@@ -2,7 +2,7 @@ function Chronology(options) {
     this.config = {};
 
     var _self = this,
-        _wrapper, _timeline, _events, _rows = [],
+        _wrapper, _timeline, _events, _previous, _rows = [],
         _defaults = {
           scale:      50,                         // 1 year = 50 pixels
           increment:  10,                         // increase or decrease zoom of 10px
@@ -34,11 +34,13 @@ function Chronology(options) {
     ////////////////////
 
     this.zoomIn = function () {
+      _previous = _self.config.scale;
       _self.config.scale += _self.config.increment;
       _updateView();
     };
 
     this.zoomOut = function () {
+      _previous = _self.config.scale;
       _self.config.scale -= _self.config.increment;
       if (_self.config.scale <= _self.config.increment) {
         _self.config.scale = _self.config.increment;
@@ -47,6 +49,7 @@ function Chronology(options) {
     };
 
     this.reset = function () {
+      _previous = _self.config.scale;
       _self.config.scale = _defaults.scale;
       _updateView();
     };
@@ -194,6 +197,11 @@ function Chronology(options) {
     var _updateView = function (init) {
       // Prevent to loop entire timeline and events tree twice on initialization
       if (init !== true) {
+        // Keep user on the current viewing year when zooming
+        var offset = (_timeline.scrollLeft + (_wrapper.clientWidth / 2)) / _previous;
+        var current = _self.config.start + offset;
+        _self.config.position = (current > 0 ? current + 1 : current);
+
         // Update timeline
         for (var i = 0; i < _timeline.children.length; i++) {
           _setScale(_timeline.children[i]);
