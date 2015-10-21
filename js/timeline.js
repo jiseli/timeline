@@ -11,6 +11,7 @@ function Chronology(options) {
           end:        new Date().getFullYear(),   // end timeline at current year
           width:      200,                        // event item width
           height:     30,                         // event item height
+          margin:     0,                          // event item vertical margin (margin between events rows)
           sizes:      {                           // at which scale size class are applied
             xl: 150,
             lg: 100,
@@ -256,7 +257,7 @@ function Chronology(options) {
     var _setRow = function (item) {
       _checkAvailability(item);
       item.style.height = _self.config.height + 'px';
-      item.style.top = item.dataset.row * _self.config.height + 'px';
+      item.style.top = item.dataset.row * (_self.config.height + _self.config.margin) + 'px';
     };
 
     var _setContent = function (item) {
