@@ -21,6 +21,7 @@ getJSONEvents('events.json', function(events, res) {
     zoomInSelector: 'zoom-in-btn',
     zoomOutSelector: 'zoom-out-btn',
     resetSelector: 'reset-btn',
-    events: events
+    events: events,
+    excluded: ['uncategorized', 'discovery']
   });
 });

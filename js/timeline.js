@@ -19,6 +19,7 @@ function Chronology(options) {
             sm: 20,
             xs: 10
           },
+          excluded:   [],                         // define which categories shouldn't be shown
           events:     [],                         // events array (JSON)
                                                   // ie: [{
                                                   //  "start": 1969,
@@ -157,8 +158,22 @@ function Chronology(options) {
           return 0;
         });
 
-        // Remove offscreen events
+        // Remove offscreen events & excluded categories
         events = events.filter(function (item) {
+          var categories = item.categories.split(' ').filter(function(s){return s });
+          for(var i = 0; i < categories.length; i++) {
+            // return only non-excluded item
+            if (_self.config.excluded.indexOf(categories[i]) > -1) {
+              return false;
+            }
+          }
+
+          // don't return uncategorized events (if specified)
+          if (_self.config.excluded.indexOf('uncategorized') > -1 && categories.length == 0) {
+            return false;
+          }
+
+          // return only events between timeline start and end date
           return item.start >= _self.config.start && item.start <= _self.config.end;
         });
 
