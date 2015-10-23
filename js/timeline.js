@@ -49,9 +49,12 @@ function Chronology(options) {
       _updateView();
     };
 
-    this.reset = function () {
+    this.reset = function (scale) {
       _previous = _self.config.scale;
-      _self.config.scale = _defaults.scale;
+      if (!scale) {
+        scale = _defaults.scale;
+      }
+      _self.config.scale = scale;
       _updateView();
     };
 
