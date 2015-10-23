@@ -161,16 +161,12 @@ function Chronology(options) {
         for (var i = 0; i < _self.config.events.length; i++) {
           var item = document.createElement('li');
 
-          // Set item ID
-          var uuid = _guid('event');
-          _self.config.events[i].id = uuid;
-          item.setAttribute('id', uuid);
-
           // Set item data
-          for(attr in _self.config.events[i]) {
+          for (attr in _self.config.events[i]) {
+            _self.config.events[i][attr] = (attr == 'id') ? 'event-' + _self.config.events[i][attr] : _self.config.events[i][attr];
             item.dataset[attr] = _self.config.events[i][attr];
-            if(attr == 'title') {
-              item.setAttribute('title', _self.config.events[i][attr]);
+            if (attr == 'id' || attr == 'title') {
+              item.setAttribute(attr, _self.config.events[i][attr]);
             }
           }
 
