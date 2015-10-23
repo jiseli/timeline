@@ -144,10 +144,9 @@ function Chronology(options) {
 
     var _drawEvents = function (callback) {
       if (_self.config.events.length) {
-        var events = _self.config.events;
-
+        
         // Sort chronologically
-        events.sort(function (a, b) {
+        _self.config.events.sort(function (a, b) {
           if (a.start > b.start) {
             return 1;
           }
@@ -159,7 +158,7 @@ function Chronology(options) {
         });
 
         // Remove offscreen events & excluded categories
-        events = events.filter(function (item) {
+        _self.config.events = _self.config.events.filter(function (item) {
           var categories = item.categories.split(' ').filter(function(s){return s });
           for(var i = 0; i < categories.length; i++) {
             // return only non-excluded item
@@ -177,19 +176,19 @@ function Chronology(options) {
           return item.start >= _self.config.start && item.start <= _self.config.end;
         });
 
-        for (var i = 0; i < events.length; i++) {
+        for (var i = 0; i < _self.config.events.length; i++) {
           var item = document.createElement('li');
 
           // Set item ID
           var uuid = _guid('event');
-          events[i].id = uuid;
+          _self.config.events[i].id = uuid;
           item.setAttribute('id', uuid);
 
           // Set item data
-          for(attr in events[i]) {
-            item.dataset[attr] = events[i][attr];
+          for(attr in _self.config.events[i]) {
+            item.dataset[attr] = _self.config.events[i][attr];
             if(attr == 'title') {
-              item.setAttribute('title', events[i][attr]);
+              item.setAttribute('title', _self.config.events[i][attr]);
             }
           }
 
