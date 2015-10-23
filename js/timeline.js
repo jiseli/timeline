@@ -89,27 +89,6 @@ function Chronology(options) {
       _events = document.createElement('ol');
       _addClass(_events, 'events');
 
-      var zoomInElement = document.getElementById(_self.config.zoomInSelector);
-      if (zoomInElement) {
-        zoomInElement.addEventListener('click', function () {
-          _self.zoomIn();
-        }, false);
-      }
-
-      var zoomOutElement = document.getElementById(_self.config.zoomOutSelector);
-      if (zoomOutElement) {
-        zoomOutElement.addEventListener('click', function () {
-          _self.zoomOut();
-        }, false);
-      }
-
-      var resetElement = document.getElementById(_self.config.resetSelector);
-      if (resetElement) {
-        resetElement.addEventListener('click', function () {
-          _self.reset();
-        }, false);
-      }
-
       _drawTimeline(function () {
         _drawEvents(function () {
           _timeline.appendChild(_events);
@@ -144,7 +123,7 @@ function Chronology(options) {
 
     var _drawEvents = function (callback) {
       if (_self.config.events.length) {
-        
+
         // Sort chronologically
         _self.config.events.sort(function (a, b) {
           if (a.start > b.start) {
